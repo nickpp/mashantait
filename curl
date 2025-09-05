@@ -1,0 +1,18 @@
+ curl --location 'https://calculator.bankjerusalem.co.il//jerusalem/api_calc' \
+--header 'Accept: application/json, text/javascript, */*; q=0.01' \
+--header 'Accept-Language: en-US,en;q=0.9,he;q=0.8' \
+--header 'Cache-Control: no-cache' \
+--header 'Connection: keep-alive' \
+--header 'Content-Type: application/x-www-form-urlencoded; charset=UTF-8' \
+--header 'Origin: https://calculator.bankjerusalem.co.il' \
+--header 'Pragma: no-cache' \
+--header 'Referer: https://calculator.bankjerusalem.co.il/' \
+--header 'Sec-Fetch-Dest: empty' \
+--header 'Sec-Fetch-Mode: cors' \
+--header 'Sec-Fetch-Site: same-origin' \
+--header 'User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/139.0.0.0 Safari/537.36' \
+--header 'X-Requested-With: XMLHttpRequest' \
+--header 'sec-ch-ua: "Not;A=Brand";v="99", "Google Chrome";v="139", "Chromium";v="139"' \
+--header 'sec-ch-ua-mobile: ?0' \
+--header 'sec-ch-ua-platform: "macOS"' \
+--data 'mix=%5B%7B%22loan_board%22%3A%221%22%2C%22loan_type%22%3A%221%7C0%22%2C%22loan_value%22%3A%22100000%22%2C%22loan_years%22%3A240%2C%22loan_interest%22%3A%225%22%2C%22update_interest%22%3A0%7D%2C%7B%22loan_board%22%3A%221%22%2C%22loan_type%22%3A%221%7C0%22%2C%22loan_value%22%3A%22%22%2C%22loan_years%22%3A0%2C%22loan_interest%22%3A%22%22%2C%22update_interest%22%3A0%7D%2C%7B%22loan_board%22%3A%221%22%2C%22loan_type%22%3A%221%7C0%22%2C%22loan_value%22%3A%22%22%2C%22loan_years%22%3A0%2C%22loan_interest%22%3A%22%22%2C%22update_interest%22%3A0%7D%5D'

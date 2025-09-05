@@ -1,0 +1,1488 @@
+<!DOCTYPE html>
+<html lang="en" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>משכנתאית 2026 - מערכת משכנתאות מתקדמת</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #1e3a8a 0%, #1e40af 50%, #3b82f6 100%);
+            min-height: 100vh;
+            padding: 20px;
+            direction: rtl;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(45deg, #1e3a8a, #1e40af);
+            color: white;
+            padding: 30px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grain" width="100" height="100" patternUnits="userSpaceOnUse"><circle cx="20" cy="20" r="1" fill="%23ffffff" opacity="0.1"/><circle cx="80" cy="80" r="1" fill="%23ffffff" opacity="0.1"/><circle cx="40" cy="60" r="1" fill="%23ffffff" opacity="0.1"/></pattern></defs><rect width="100" height="100" fill="url(%23grain)"/></svg>');
+            opacity: 0.3;
+        }
+
+        .header > * {
+            position: relative;
+            z-index: 1;
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            font-weight: 300;
+            letter-spacing: 1px;
+        }
+
+        .header p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+            font-weight: 300;
+        }
+
+        .bank-logo {
+            display: inline-block;
+            background: linear-gradient(45deg, #fbbf24, #f59e0b);
+            color: #1e3a8a;
+            padding: 8px 16px;
+            border-radius: 25px;
+            font-weight: bold;
+            margin-bottom: 15px;
+            box-shadow: 0 4px 8px rgba(251, 191, 36, 0.3);
+        }
+
+        .main-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            padding: 30px;
+        }
+
+        .section {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 25px;
+            border: 1px solid #e9ecef;
+        }
+
+        .section h2 {
+            color: #1e3a8a;
+            margin-bottom: 20px;
+            font-size: 1.5rem;
+            border-bottom: 3px solid #fbbf24;
+            padding-bottom: 10px;
+            font-weight: 600;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #34495e;
+        }
+
+        .form-group input,
+        .form-group select {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e5e7eb;
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            background-color: #ffffff;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        }
+
+        .form-group input:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: #fbbf24;
+            box-shadow: 0 0 0 3px rgba(251, 191, 36, 0.1);
+            background-color: #fffbeb;
+        }
+
+        .current-time {
+            background: #e8f5e8;
+            border: 1px solid #c3e6c3;
+            text-align: center;
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: #2d5a2d;
+        }
+
+        .mortgage-info {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .info-item {
+            background: white;
+            padding: 15px;
+            border-radius: 8px;
+            border: 1px solid #ddd;
+        }
+
+        .info-item strong {
+            color: #2c3e50;
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        .btn {
+            background: linear-gradient(45deg, #fbbf24, #f59e0b);
+            color: #1e3a8a;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 8px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            width: 100%;
+            box-shadow: 0 4px 15px rgba(251, 191, 36, 0.3);
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(251, 191, 36, 0.4);
+            background: linear-gradient(45deg, #f59e0b, #d97706);
+        }
+
+        .btn:active {
+            transform: translateY(0);
+        }
+
+        .table-section {
+            grid-column: 1 / -1;
+            margin-top: 20px;
+        }
+
+        .table-container {
+            overflow-x: auto;
+            border-radius: 10px;
+            border: 1px solid #ddd;
+            max-height: 600px;
+            overflow-y: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: white;
+        }
+
+        th {
+            background: linear-gradient(45deg, #34495e, #2c3e50);
+            color: white;
+            padding: 15px 12px;
+            text-align: center;
+            font-weight: 600;
+            position: sticky;
+            top: 0;
+            z-index: 10;
+        }
+
+        td {
+            padding: 12px;
+            text-align: center;
+            border-bottom: 1px solid #eee;
+        }
+
+        tr:nth-child(even) {
+            background: #f8f9fa;
+        }
+
+        tr:hover {
+            background: #e3f2fd;
+        }
+
+        .currency {
+            font-weight: 600;
+            color: #27ae60;
+        }
+
+        .loading {
+            display: none;
+            text-align: center;
+            padding: 20px;
+            color: #666;
+        }
+
+        .error {
+            background: #ffebee;
+            color: #c62828;
+            padding: 15px;
+            border-radius: 8px;
+            border: 1px solid #ffcdd2;
+            margin: 10px 0;
+            display: none;
+        }
+
+        .success {
+            background: #e8f5e8;
+            color: #2e7d32;
+            padding: 15px;
+            border-radius: 8px;
+            border: 1px solid #c8e6c9;
+            margin: 10px 0;
+            display: none;
+        }
+
+        .track-input {
+            background: white;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 15px;
+        }
+
+        .track-input h3 {
+            color: #2c3e50;
+            margin-bottom: 15px;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 5px;
+        }
+
+        @media (max-width: 768px) {
+            .main-content {
+                grid-template-columns: 1fr;
+                gap: 20px;
+                padding: 20px;
+            }
+            
+            .mortgage-info {
+                grid-template-columns: 1fr;
+            }
+            
+            .header h1 {
+                font-size: 2rem;
+            }
+
+            .track-input div[style*="grid-template-columns"] {
+                grid-template-columns: 1fr !important;
+            }
+
+            #tracksContainer {
+                grid-template-columns: 1fr 1fr !important;
+            }
+        }
+
+        /* Tab Styles */
+        .tab-btn {
+            background: linear-gradient(145deg, #64748b, #475569);
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            margin: 0 5px;
+            border-radius: 8px 8px 0 0;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        
+        .tab-btn:hover {
+            background: linear-gradient(145deg, #475569, #334155);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        }
+        
+        .tab-btn.active {
+            background: linear-gradient(145deg, #1e40af, #1e3a8a);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(30, 64, 175, 0.3);
+        }
+        
+        .tab-content {
+            display: none;
+        }
+        
+        .tab-content.active {
+            display: block;
+        }
+        
+        .engine-state {
+            background: #e8f5e8;
+            border: 2px solid #28a745;
+            border-radius: 8px;
+            padding: 15px;
+            margin: 15px 0;
+        }
+        
+        .engine-changes {
+            background: #fff3cd;
+            border: 2px solid #ffc107;
+            border-radius: 8px;
+            padding: 15px;
+            margin: 15px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="bank-logo">🏛️ משכנתאית</div>
+            <h1>משכנתאית 2026</h1>
+            <p>מערכת משכנתאות חכמה ומתקדמת</p>
+            <div style="margin-top: 15px; font-size: 1.1rem; opacity: 0.9;">
+                ⏰ <span id="currentTime">טוען...</span>
+            </div>
+            
+            <!-- Tab Navigation -->
+            <div style="margin-top: 20px;">
+                <button class="tab-btn active" onclick="switchTab('calculator')">🧮 מחשבון</button>
+                <button class="tab-btn" onclick="switchTab('engine')">⚙️ מנוע</button>
+            </div>
+        </div>
+
+        <div class="main-content" style="grid-template-columns: 1fr;">
+            
+            <!-- Calculator Tab Content -->
+            <div id="calculatorTab" class="tab-content active">
+                <!-- Section 2: Build Your Mortgage -->
+            <div class="section">
+                <h2>🏗️ בנה את המשכנתא שלך</h2>
+                
+                <div id="tracksContainer" style="display: grid; grid-template-columns: 1fr 1fr 1fr 1fr; gap: 20px;">
+                    <!-- Track 1 -->
+                    <div class="track-input" id="track1">
+                        <h3>מסלול 1</h3>
+                        <div class="form-group">
+                            <label>סכום (₪):</label>
+                            <input type="number" id="amount1" placeholder="100000">
+                        </div>
+                        <div class="form-group">
+                            <label>ריבית (%):</label>
+                            <input type="number" id="rate1" step="0.1" placeholder="5.0">
+                        </div>
+                        <div class="form-group">
+                            <label>תקופה (חודשים):</label>
+                            <input type="number" id="months1" placeholder="240">
+                        </div>
+                        <div class="form-group">
+                            <label>סוג מסלול:</label>
+                            <select id="type1" onchange="toggleSpecialOptions(1)">
+                                <option value="fixed_rate" selected>קבוע</option>
+                                <option value="variable_prime">פריים</option>
+                                <option value="index_linked_variable">צמוד מדד</option>
+                                <option value="grace_period">חסד</option>
+                                <option value="bridge">גישור</option>
+                            </select>
+                        </div>
+                        <div class="form-group" id="graceOptions1" style="display: none;">
+                            <label>תקופת חסד (חודשים):</label>
+                            <input type="number" id="gracePeriod1" placeholder="12" min="0" max="60">
+                        </div>
+                        <div class="form-group" id="bridgeOptions1" style="display: none;">
+                            <label>תקופת גישור (חודשים):</label>
+                            <input type="number" id="bridgePeriod1" placeholder="12" min="1" max="36">
+                        </div>
+                    </div>
+
+                    <!-- Track 2 -->
+                    <div class="track-input" id="track2">
+                        <h3>מסלול 2</h3>
+                        <div class="form-group">
+                            <label>סכום (₪):</label>
+                            <input type="number" id="amount2" placeholder="">
+                        </div>
+                        <div class="form-group">
+                            <label>ריבית (%):</label>
+                            <input type="number" id="rate2" step="0.1" placeholder="">
+                        </div>
+                        <div class="form-group">
+                            <label>תקופה (חודשים):</label>
+                            <input type="number" id="months2" placeholder="">
+                        </div>
+                        <div class="form-group">
+                            <label>סוג מסלול:</label>
+                            <select id="type2" onchange="toggleSpecialOptions(2)">
+                                <option value="fixed_rate" selected>קבוע</option>
+                                <option value="variable_prime">פריים</option>
+                                <option value="index_linked_variable">צמוד מדד</option>
+                                <option value="grace_period">חסד</option>
+                                <option value="bridge">גישור</option>
+                            </select>
+                        </div>
+                        <div class="form-group" id="graceOptions2" style="display: none;">
+                            <label>תקופת חסד (חודשים):</label>
+                            <input type="number" id="gracePeriod2" placeholder="12" min="0" max="60">
+                        </div>
+                        <div class="form-group" id="bridgeOptions2" style="display: none;">
+                            <label>תקופת גישור (חודשים):</label>
+                            <input type="number" id="bridgePeriod2" placeholder="12" min="1" max="36">
+                        </div>
+                    </div>
+
+                    <!-- Track 3 -->
+                    <div class="track-input" id="track3">
+                        <h3>מסלול 3</h3>
+                        <div class="form-group">
+                            <label>סכום (₪):</label>
+                            <input type="number" id="amount3" placeholder="">
+                        </div>
+                        <div class="form-group">
+                            <label>ריבית (%):</label>
+                            <input type="number" id="rate3" step="0.1" placeholder="">
+                        </div>
+                        <div class="form-group">
+                            <label>תקופה (חודשים):</label>
+                            <input type="number" id="months3" placeholder="">
+                        </div>
+                        <div class="form-group">
+                            <label>סוג מסלול:</label>
+                            <select id="type3" onchange="toggleSpecialOptions(3)">
+                                <option value="fixed_rate" selected>קבוע</option>
+                                <option value="variable_prime">פריים</option>
+                                <option value="index_linked_variable">צמוד מדד</option>
+                                <option value="grace_period">חסד</option>
+                                <option value="bridge">גישור</option>
+                            </select>
+                        </div>
+                        <div class="form-group" id="graceOptions3" style="display: none;">
+                            <label>תקופת חסד (חודשים):</label>
+                            <input type="number" id="gracePeriod3" placeholder="12" min="0" max="60">
+                        </div>
+                        <div class="form-group" id="bridgeOptions3" style="display: none;">
+                            <label>תקופת גישור (חודשים):</label>
+                            <input type="number" id="bridgePeriod3" placeholder="12" min="1" max="36">
+                        </div>
+                    </div>
+
+                    <!-- Track 4 -->
+                    <div class="track-input" id="track4">
+                        <h3>מסלול 4</h3>
+                        <div class="form-group">
+                            <label>סכום (₪):</label>
+                            <input type="number" id="amount4" placeholder="">
+                        </div>
+                        <div class="form-group">
+                            <label>ריבית (%):</label>
+                            <input type="number" id="rate4" step="0.1" placeholder="">
+                        </div>
+                        <div class="form-group">
+                            <label>תקופה (חודשים):</label>
+                            <input type="number" id="months4" placeholder="">
+                        </div>
+                        <div class="form-group">
+                            <label>סוג מסלול:</label>
+                            <select id="type4" onchange="toggleSpecialOptions(4)">
+                                <option value="fixed_rate" selected>קבוע</option>
+                                <option value="variable_prime">פריים</option>
+                                <option value="index_linked_variable">צמוד מדד</option>
+                                <option value="grace_period">חסד</option>
+                                <option value="bridge">גישור</option>
+                            </select>
+                        </div>
+                        <div class="form-group" id="graceOptions4" style="display: none;">
+                            <label>תקופת חסד (חודשים):</label>
+                            <input type="number" id="gracePeriod4" placeholder="12" min="0" max="60">
+                        </div>
+                        <div class="form-group" id="bridgeOptions4" style="display: none;">
+                            <label>תקופת גישור (חודשים):</label>
+                            <input type="number" id="bridgePeriod4" placeholder="12" min="1" max="36">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mortgage-info" style="margin-top: 20px;">
+                    <div class="info-item">
+                        <strong>סכום כולל:</strong>
+                        <span id="totalAmount">₪0</span>
+                    </div>
+                    <div class="info-item">
+                        <strong>תשלום חודשי משוער:</strong>
+                        <span id="monthlyPayment" class="currency">₪0</span>
+                    </div>
+                </div>
+
+                <button class="btn" onclick="calculateMortgage()">🔄 חשב משכנתא</button>
+                <div id="debugInfo" style="margin-top: 10px; padding: 10px; background: #f0f0f0; border-radius: 5px; font-size: 12px; display: none;"></div>
+            </div>
+
+            <!-- Section 3: Monthly Corrections -->
+            <div class="section">
+                <h2>📊 תיקונים חודשיים</h2>
+                
+                <div class="form-group">
+                    <label for="newPrimeRate">ריבית פריים חדשה (%):</label>
+                    <input type="number" id="newPrimeRate" step="0.01" placeholder="4.50">
+                </div>
+
+                <div class="form-group">
+                    <label for="newCpiIndex">מדד מחירים חדש:</label>
+                    <input type="number" id="newCpiIndex" step="0.1" placeholder="108.5">
+                </div>
+
+                <div class="form-group">
+                    <label for="calculationDate">תאריך חישוב:</label>
+                    <input type="date" id="calculationDate">
+                </div>
+
+                <button class="btn" onclick="updateMortgage()">🔄 עדכן משכנתא</button>
+                <div id="updateDebugInfo" style="margin-top: 10px; padding: 10px; background: #fff3cd; border-radius: 5px; font-size: 12px; display: none;"></div>
+            </div>
+
+            <!-- Section 4: Total Payments Summary -->
+            <div class="section">
+                <h2>💰 סיכום תשלומים</h2>
+                <div class="mortgage-info" id="paymentsSummary" style="display: none;">
+                    <div class="info-item">
+                        <strong>תשלום חודשי:</strong>
+                        <span id="summaryMonthlyPayment" class="currency">₪0</span>
+                    </div>
+                    <div class="info-item">
+                        <strong>סה"כ תשלומים:</strong>
+                        <span id="summaryTotalPayments" class="currency">₪0</span>
+                    </div>
+                    <div class="info-item">
+                        <strong>סה"כ ריבית:</strong>
+                        <span id="summaryTotalInterest" class="currency">₪0</span>
+                    </div>
+                    <div class="info-item">
+                        <strong>יחס ריבית:</strong>
+                        <span id="summaryInterestRatio">0%</span>
+                    </div>
+                </div>
+                <div id="bankComparison" style="margin-top: 15px; padding: 15px; background: #fff3cd; border-radius: 8px; display: none;">
+                    <h4>🏦 השוואה לבנק ירושלים</h4>
+                    <button class="btn" onclick="compareToBankJerusalem()" style="margin-top: 10px;">השווה לבנק ירושלים</button>
+                    <div id="comparisonResult" style="margin-top: 10px;"></div>
+                </div>
+            </div>
+
+            <!-- Section 5: Comprehensive Amortization Table -->
+            <div class="section table-section">
+                <h2>📈 טבלת פירעון מקיפה</h2>
+                
+                <div class="error" id="errorMessage"></div>
+                <div class="success" id="successMessage"></div>
+                <div class="loading" id="loadingMessage">טוען נתונים...</div>
+
+                <div class="table-container">
+                    <table id="amortizationTable">
+                        <thead>
+                            <tr>
+                                <th>תשלום #</th>
+                                <th>תאריך</th>
+                                <th>תשלום חודשי</th>
+                                <th>קרן</th>
+                                <th>ריבית</th>
+                                <th>יתרה</th>
+                                <th>סה"כ תשלומים</th>
+                                <th>סה"כ ריבית</th>
+                            </tr>
+                        </thead>
+                        <tbody id="amortizationBody">
+                            <tr>
+                                <td colspan="8">טען נתוני משכנתא כדי לראות את טבלת הפירעון</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                            </div>
+            </div>
+            </div> <!-- End Calculator Tab -->
+            
+            <!-- Engine Tab Content -->
+            <div id="engineTab" class="tab-content">
+                
+                <!-- Section 1: Current Mortgage State -->
+                <div class="section engine-state">
+                    <h2>🏦 מצב משכנתא נוכחי</h2>
+                    <div class="mortgage-info" id="currentMortgageState">
+                        <div class="info-item">
+                            <strong>חודש נוכחי:</strong>
+                            <span id="currentMonth">13</span>
+                        </div>
+                        <div class="info-item">
+                            <strong>תאריך עדכון:</strong>
+                            <span id="currentDate">2025-01-31</span>
+                        </div>
+                        <div class="info-item">
+                            <strong>יתרת קרן כוללת:</strong>
+                            <span id="currentBalance" class="currency">₪0</span>
+                        </div>
+                        <div class="info-item">
+                            <strong>תשלום חודשי נוכחי:</strong>
+                            <span id="currentPayment" class="currency">₪0</span>
+                        </div>
+                    </div>
+                    
+                    <button class="btn" onclick="loadExampleMortgage()">📋 טען דוגמא (חודש 13)</button>
+                </div>
+
+                <!-- Section 2: Market Changes -->
+                <div class="section engine-changes">
+                    <h2>📈 שינויי שוק</h2>
+                    <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 15px;">
+                        <div class="form-group">
+                            <label>ריבית פריים חדשה (%):</label>
+                            <input type="number" id="newPrimeRate" step="0.01" placeholder="4.75">
+                        </div>
+                        <div class="form-group">
+                            <label>מדד מחירים חדש:</label>
+                            <input type="number" id="newCPI" step="0.1" placeholder="110.2">
+                        </div>
+                        <div class="form-group">
+                            <label>תאריך עדכון:</label>
+                            <input type="date" id="updateDate">
+                        </div>
+                    </div>
+                    
+                    <div style="margin-top: 15px;">
+                        <label><strong>הערות לעדכון:</strong></label>
+                        <textarea id="updateNotes" rows="3" style="width: 100%; padding: 8px; border-radius: 5px; border: 1px solid #ddd;" placeholder="הערות על שינויי השוק והסיבות לעדכון..."></textarea>
+                    </div>
+                </div>
+
+                <!-- Section 3: Engine Processing -->
+                <div class="section">
+                    <h2>⚙️ עיבוד מנוע</h2>
+                    <div class="mortgage-info">
+                        <div class="info-item">
+                            <strong>סטטוס מנוע:</strong>
+                            <span id="engineStatus">מוכן לעיבוד</span>
+                        </div>
+                        <div class="info-item">
+                            <strong>עדכון אחרון:</strong>
+                            <span id="lastUpdate">-</span>
+                        </div>
+                    </div>
+                    
+                    <button class="btn" onclick="processMonthlyUpdate()" style="background: #28a745;">
+                        🔄 עבד עדכון חודשי
+                    </button>
+                    <div id="engineDebugInfo" style="margin-top: 10px; padding: 10px; background: #f0f0f0; border-radius: 5px; font-size: 12px; display: none;"></div>
+                </div>
+
+                <!-- Section 4: Updated State -->
+                <div class="section" id="updatedStateSection" style="display: none;">
+                    <h2>📊 מצב עדכני</h2>
+                    <div class="engine-state">
+                        <div class="mortgage-info" id="updatedMortgageState">
+                            <!-- Will be populated after processing -->
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Section 5: Track Details -->
+                <div class="section table-section" id="trackDetailsSection" style="display: none;">
+                    <h2>📋 פירוט מסלולים</h2>
+                    <div class="table-container">
+                        <table id="trackDetailsTable">
+                            <thead>
+                                <tr>
+                                    <th>מסלול</th>
+                                    <th>יתרה לפני</th>
+                                    <th>יתרה אחרי</th>
+                                    <th>ריבית</th>
+                                    <th>תשלום</th>
+                                    <th>חודשים נותרו</th>
+                                </tr>
+                            </thead>
+                            <tbody id="trackDetailsBody">
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div> <!-- End Engine Tab -->
+        </div>
+
+        <script>
+        let currentMortgageData = null;
+        let currentEngineState = null;
+        const API_BASE = 'http://localhost:8000';
+
+        // Update current time
+        function updateCurrentTime() {
+            const now = new Date();
+            const options = {
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric',
+                hour: '2-digit',
+                minute: '2-digit',
+                second: '2-digit',
+                timeZone: 'Asia/Jerusalem'
+            };
+            document.getElementById('currentTime').textContent = 
+                now.toLocaleDateString('he-IL', options);
+        }
+
+        // Set today's date as default
+        function setDefaultDate() {
+            const today = new Date().toISOString().split('T')[0];
+            document.getElementById('calculationDate').value = today;
+        }
+
+        // Calculate mortgage from user inputs
+        async function calculateMortgage() {
+            const debugDiv = document.getElementById('debugInfo');
+            debugDiv.style.display = 'block';
+            debugDiv.innerHTML = '🔄 Building mortgage from inputs...';
+            
+            try {
+                showLoading(true);
+                hideMessages();
+
+                // Collect track data from inputs
+                const tracks = [];
+                let totalAmount = 0;
+
+                for (let i = 1; i <= 4; i++) {
+                    const amount = parseFloat(document.getElementById(`amount${i}`).value);
+                    const rate = parseFloat(document.getElementById(`rate${i}`).value);
+                    const months = parseInt(document.getElementById(`months${i}`).value);
+                    const type = document.getElementById(`type${i}`).value;
+
+                                            // Handle different track types
+                        if (amount && rate) {
+                            totalAmount += amount;
+                            
+                            let trackData = {
+                                track_id: `TRACK-${i}`,
+                                track_name: `מסלול ${i}`,
+                                track_type: type,
+                                original_amount: amount,
+                                current_balance: amount,
+                                rate: rate / 100,
+                                rate_type: type.includes('variable') ? 'variable' : 'fixed',
+                                start_date: "2024-01-01",
+                                payments_made: 0
+                            };
+                            
+                            if (type === 'grace_period') {
+                                const gracePeriod = parseInt(document.getElementById(`gracePeriod${i}`).value) || 0;
+                                if (months && gracePeriod < months) {
+                                    trackData.total_term_months = months;
+                                    trackData.remaining_months = months;
+                                    trackData.grace_period_months = gracePeriod;
+                                    trackData.is_interest_only = false; // Will be handled in backend
+                                    debugDiv.innerHTML += `<br>✅ מסלול ${i} (חסד): ₪${amount.toLocaleString()}, ${rate}%, ${months} חודשים (${gracePeriod} חסד)`;
+                                } else {
+                                    debugDiv.innerHTML += `<br>❌ מסלול ${i}: תקופת חסד לא תקינה`;
+                                    continue;
+                                }
+                            } else if (type === 'bridge') {
+                                const bridgePeriod = parseInt(document.getElementById(`bridgePeriod${i}`).value) || 12;
+                                trackData.total_term_months = bridgePeriod;
+                                trackData.remaining_months = bridgePeriod;
+                                trackData.bridge_period_months = bridgePeriod;
+                                trackData.is_interest_only = true;
+                                trackData.has_balloon_payment = true;
+                                debugDiv.innerHTML += `<br>✅ מסלול ${i} (גישור): ₪${amount.toLocaleString()}, ${rate}%, ${bridgePeriod} חודשים + בלון`;
+                            } else {
+                                // Regular loan
+                                if (months) {
+                                    trackData.total_term_months = months;
+                                    trackData.remaining_months = months;
+                                    trackData.is_interest_only = false;
+                                    debugDiv.innerHTML += `<br>✅ מסלול ${i}: ₪${amount.toLocaleString()}, ${rate}%, ${months} חודשים`;
+                                } else {
+                                    debugDiv.innerHTML += `<br>❌ מסלול ${i}: חסר תקופה`;
+                                    continue;
+                                }
+                            }
+                            
+                            tracks.push(trackData);
+                        }
+                }
+
+                if (tracks.length === 0) {
+                    throw new Error('אנא הכנס לפחות מסלול אחד');
+                }
+
+                // Build mortgage state
+                currentMortgageData = {
+                    mortgage_id: "USER-BUILT-001",
+                    borrower: { name: "Test User", id: "123456789" },
+                    mortgage_details: {
+                        original_amount: totalAmount,
+                        currency: "ILS",
+                        start_date: "2024-01-01",
+                        current_date: "2024-01-01"
+                    },
+                    market_conditions: {
+                        current_prime_rate: 0.045,
+                        current_cpi_index: 108.5,
+                        base_cpi_index: 108.5
+                    },
+                    tracks: tracks,
+                    current_monthly_payment: { total_payment: 0, breakdown: [] },
+                    last_calculation_date: "2024-01-01",
+                    next_adjustment_triggers: []
+                };
+
+                debugDiv.innerHTML += `<br>🏗️ סה"כ משכנתא: ₪${totalAmount.toLocaleString()}`;
+                debugDiv.innerHTML += `<br>📊 ${tracks.length} מסלולים נוצרו`;
+
+                // Update display
+                document.getElementById('totalAmount').textContent = `₪${totalAmount.toLocaleString()}`;
+
+                // Calculate amortization table
+                await updateMortgage();
+                
+                showSuccess(`משכנתא נוצרה בהצלחה! סה"כ: ₪${totalAmount.toLocaleString()}`);
+                debugDiv.innerHTML += `<br>🎉 חישוב הושלם!`;
+                
+            } catch (error) {
+                console.error('Error calculating mortgage:', error);
+                showError('שגיאה בחישוב משכנתא: ' + error.message);
+                debugDiv.innerHTML += `<br>❌ Error: ${error.message}`;
+            } finally {
+                showLoading(false);
+            }
+        }
+
+        // Update mortgage calculations
+        async function updateMortgage() {
+            const updateDebugDiv = document.getElementById('updateDebugInfo');
+            updateDebugDiv.style.display = 'block';
+            updateDebugDiv.innerHTML = '🔄 Starting mortgage update...';
+
+            if (!currentMortgageData) {
+                updateDebugDiv.innerHTML += '<br>❌ No mortgage data loaded!';
+                showError('אנא טען תחילה נתוני משכנתא');
+                return;
+            }
+
+            try {
+                showLoading(true);
+                hideMessages();
+                updateDebugDiv.innerHTML += '<br>✅ Mortgage data exists';
+
+                const requestData = {
+                    mortgage_state: currentMortgageData,
+                    monthly_changes: {
+                        calculation_date: document.getElementById('calculationDate').value || new Date().toISOString().split('T')[0]
+                    }
+                };
+
+                // Add optional changes
+                const newPrimeRate = document.getElementById('newPrimeRate').value;
+                const newCpiIndex = document.getElementById('newCpiIndex').value;
+                
+                updateDebugDiv.innerHTML += `<br>📊 Prime rate: ${newPrimeRate || 'unchanged'}`;
+                updateDebugDiv.innerHTML += `<br>📈 CPI index: ${newCpiIndex || 'unchanged'}`;
+                
+                if (newPrimeRate) {
+                    requestData.monthly_changes.new_prime_rate = parseFloat(newPrimeRate) / 100;
+                }
+                if (newCpiIndex) {
+                    requestData.monthly_changes.new_cpi_index = parseFloat(newCpiIndex);
+                }
+
+                updateDebugDiv.innerHTML += '<br>🌐 Sending API request...';
+                console.log('Sending request:', requestData);
+
+                const response = await fetch(`${API_BASE}/update-mortgage`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(requestData)
+                });
+
+                updateDebugDiv.innerHTML += `<br>📡 API response: ${response.status}`;
+
+                if (!response.ok) {
+                    const errorData = await response.json();
+                    updateDebugDiv.innerHTML += `<br>❌ API Error: ${errorData.detail}`;
+                    throw new Error(errorData.detail || 'API Error');
+                }
+
+                const result = await response.json();
+                updateDebugDiv.innerHTML += '<br>✅ API response received';
+                
+                // Update monthly payment display
+                const monthlyPayment = result.updated_mortgage_state.current_monthly_payment.total_payment;
+                document.getElementById('monthlyPayment').textContent = `₪${monthlyPayment.toLocaleString()}`;
+                updateDebugDiv.innerHTML += `<br>💰 Monthly payment: ₪${monthlyPayment.toLocaleString()}`;
+                
+                // Update amortization table
+                updateAmortizationTable(result.updated_mortgage_state.amortization_table);
+                updateDebugDiv.innerHTML += '<br>📊 Amortization table updated';
+                
+                // Update payments summary
+                updatePaymentsSummary(result.updated_mortgage_state.amortization_table, monthlyPayment);
+                updateDebugDiv.innerHTML += '<br>💰 Payments summary updated';
+                
+                showSuccess('משכנתא עודכנה בהצלחה!');
+                updateDebugDiv.innerHTML += '<br>🎉 Update complete!';
+                
+            } catch (error) {
+                console.error('Error updating mortgage:', error);
+                showError('שגיאה בעדכון משכנתא: ' + error.message);
+                updateDebugDiv.innerHTML += `<br>❌ Error: ${error.message}`;
+            } finally {
+                showLoading(false);
+            }
+        }
+
+        // Update amortization table with combined payments from all tracks
+        function updateAmortizationTable(amortizationData) {
+            const tbody = document.getElementById('amortizationBody');
+            tbody.innerHTML = '';
+
+            if (!amortizationData || amortizationData.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="8">אין נתונים להצגה</td></tr>';
+                return;
+            }
+
+            // Group by payment number and combine all tracks
+            const combinedPayments = new Map();
+            
+            amortizationData.forEach(entry => {
+                const paymentNum = entry.payment_number;
+                
+                if (!combinedPayments.has(paymentNum)) {
+                    combinedPayments.set(paymentNum, {
+                        payment_number: paymentNum,
+                        date: entry.date,
+                        payment: 0,
+                        principal: 0,
+                        interest: 0,
+                        balance: 0
+                    });
+                }
+                
+                const combined = combinedPayments.get(paymentNum);
+                combined.payment += entry.payment;
+                combined.principal += entry.principal;
+                combined.interest += entry.interest;
+                combined.balance += entry.balance; // Total remaining balance across all tracks
+            });
+
+            // Convert to sorted array
+            const sortedPayments = Array.from(combinedPayments.values()).sort((a, b) => a.payment_number - b.payment_number);
+            
+            let totalPaymentsSoFar = 0;
+            let totalInterestSoFar = 0;
+
+            sortedPayments.forEach((entry, index) => {
+                totalPaymentsSoFar += entry.payment;
+                totalInterestSoFar += entry.interest;
+
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${entry.payment_number}</td>
+                    <td>${new Date(entry.date).toLocaleDateString('he-IL')}</td>
+                    <td class="currency">₪${Math.round(entry.payment).toLocaleString()}</td>
+                    <td class="currency">₪${Math.round(entry.principal).toLocaleString()}</td>
+                    <td class="currency">₪${Math.round(entry.interest).toLocaleString()}</td>
+                    <td class="currency">₪${Math.round(entry.balance).toLocaleString()}</td>
+                    <td class="currency">₪${Math.round(totalPaymentsSoFar).toLocaleString()}</td>
+                    <td class="currency">₪${Math.round(totalInterestSoFar).toLocaleString()}</td>
+                `;
+                tbody.appendChild(row);
+            });
+        }
+
+        // Update payments summary
+        function updatePaymentsSummary(amortizationData, monthlyPayment) {
+            if (!amortizationData || amortizationData.length === 0) return;
+
+            // Calculate total payments and interest from the last entry
+            const lastEntry = amortizationData[amortizationData.length - 1];
+            let totalPayments = 0;
+            let totalInterest = 0;
+
+            // Sum all payments
+            amortizationData.forEach(entry => {
+                totalPayments += entry.payment;
+                totalInterest += entry.interest;
+            });
+
+            const principal = totalPayments - totalInterest;
+            const interestRatio = (totalInterest / principal) * 100;
+
+            // Update display
+            document.getElementById('summaryMonthlyPayment').textContent = `₪${Math.round(monthlyPayment).toLocaleString()}`;
+            document.getElementById('summaryTotalPayments').textContent = `₪${Math.round(totalPayments).toLocaleString()}`;
+            document.getElementById('summaryTotalInterest').textContent = `₪${Math.round(totalInterest).toLocaleString()}`;
+            document.getElementById('summaryInterestRatio').textContent = `${interestRatio.toFixed(1)}%`;
+            
+            // Show the summary section
+            document.getElementById('paymentsSummary').style.display = 'grid';
+            document.getElementById('bankComparison').style.display = 'block';
+        }
+
+        // Compare to Bank Jerusalem API
+        async function compareToBankJerusalem() {
+            if (!currentMortgageData || !currentMortgageData.tracks || currentMortgageData.tracks.length === 0) {
+                showError('אנא חשב משכנתא תחילה');
+                return;
+            }
+
+            const comparisonDiv = document.getElementById('comparisonResult');
+            comparisonDiv.innerHTML = '🔄 משווה לבנק ירושלים...';
+
+            try {
+                // Use first track for comparison (Bank Jerusalem API expects single loan)
+                const firstTrack = currentMortgageData.tracks[0];
+                
+                const bankRequest = {
+                    loan_value: firstTrack.original_amount.toString(),
+                    loan_years: firstTrack.total_term_months,
+                    loan_interest: (firstTrack.rate * 100).toString()
+                };
+
+                // Call our proxy endpoint instead of bank directly
+                const response = await fetch('/proxy-bank-api', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(bankRequest)
+                });
+
+                if (!response.ok) {
+                    const errorText = await response.text();
+                    throw new Error(`Proxy error: ${response.status} - ${errorText}`);
+                }
+
+                const proxyResult = await response.json();
+                
+                if (!proxyResult.success) {
+                    throw new Error(proxyResult.error || 'Bank API call failed');
+                }
+
+                const bankResult = proxyResult.bank_result;
+                
+                // Debug: Log the bank result structure
+                console.log('Bank API Response:', bankResult);
+                
+                // Compare results
+                const ourMonthlyPayment = parseFloat(document.getElementById('summaryMonthlyPayment').textContent.replace(/[₪,]/g, ''));
+                
+                // Extract Bank Jerusalem values - they're at response root level
+                // Remove commas from numbers before parsing
+                const bankMonthlyPayment = parseFloat((bankResult.response?.sum_monthly_repayment || bankResult.sum_monthly_repayment || '0').toString().replace(/,/g, ''));
+                const bankTotalInterest = parseFloat((bankResult.response?.sum_interest_inflation_value || bankResult.sum_interest_inflation_value || '0').toString().replace(/,/g, ''));
+                const bankTotalPayments = parseFloat((bankResult.response?.sum_interest_inflation_value_and_monthly_repayment || bankResult.sum_interest_inflation_value_and_monthly_repayment || '0').toString().replace(/,/g, ''));
+                
+                // Debug: Log extracted values
+                console.log('Bank Values:', {
+                    monthly: bankMonthlyPayment,
+                    totalInterest: bankTotalInterest,
+                    totalPayments: bankTotalPayments
+                });
+                
+                // Get our values for comparison
+                const ourTotalPayments = parseFloat(document.getElementById('summaryTotalPayments').textContent.replace(/[₪,]/g, ''));
+                const ourTotalInterest = parseFloat(document.getElementById('summaryTotalInterest').textContent.replace(/[₪,]/g, ''));
+                
+                // Calculate differences
+                const monthlyDiff = Math.abs(ourMonthlyPayment - bankMonthlyPayment);
+                const monthlyPercentDiff = ((monthlyDiff / bankMonthlyPayment) * 100).toFixed(2);
+                
+                const totalPaymentsDiff = Math.abs(ourTotalPayments - bankTotalPayments);
+                const totalInterestDiff = Math.abs(ourTotalInterest - bankTotalInterest);
+
+                comparisonDiv.innerHTML = `
+                    <div style="background: #f8f9fa; padding: 15px; border-radius: 8px;">
+                        <h5>🏦 השוואה לבנק ירושלים</h5>
+                        
+                        <table style="width: 100%; border-collapse: collapse; margin-top: 10px;">
+                            <thead>
+                                <tr style="background: #e9ecef;">
+                                    <th style="padding: 8px; text-align: right; border: 1px solid #ddd;"></th>
+                                    <th style="padding: 8px; text-align: right; border: 1px solid #ddd;">המנוע שלנו</th>
+                                    <th style="padding: 8px; text-align: right; border: 1px solid #ddd;">בנק ירושלים</th>
+                                    <th style="padding: 8px; text-align: right; border: 1px solid #ddd;">הפרש</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td style="padding: 8px; border: 1px solid #ddd;"><strong>תשלום חודשי</strong></td>
+                                    <td style="padding: 8px; border: 1px solid #ddd;">₪${Math.round(ourMonthlyPayment).toLocaleString()}</td>
+                                    <td style="padding: 8px; border: 1px solid #ddd;">₪${Math.round(bankMonthlyPayment).toLocaleString()}</td>
+                                    <td style="padding: 8px; border: 1px solid #ddd; color: ${monthlyDiff < 10 ? 'green' : 'orange'};">
+                                        ₪${Math.round(monthlyDiff).toLocaleString()} (${monthlyPercentDiff}%)
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style="padding: 8px; border: 1px solid #ddd;"><strong>סה"כ תשלומים</strong></td>
+                                    <td style="padding: 8px; border: 1px solid #ddd;">₪${Math.round(ourTotalPayments).toLocaleString()}</td>
+                                    <td style="padding: 8px; border: 1px solid #ddd;">₪${Math.round(bankTotalPayments).toLocaleString()}</td>
+                                    <td style="padding: 8px; border: 1px solid #ddd; color: ${totalPaymentsDiff < 1000 ? 'green' : 'orange'};">
+                                        ₪${Math.round(totalPaymentsDiff).toLocaleString()}
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style="padding: 8px; border: 1px solid #ddd;"><strong>סה"כ ריבית</strong></td>
+                                    <td style="padding: 8px; border: 1px solid #ddd;">₪${Math.round(ourTotalInterest).toLocaleString()}</td>
+                                    <td style="padding: 8px; border: 1px solid #ddd;">₪${Math.round(bankTotalInterest).toLocaleString()}</td>
+                                    <td style="padding: 8px; border: 1px solid #ddd; color: ${totalInterestDiff < 1000 ? 'green' : 'orange'};">
+                                        ₪${Math.round(totalInterestDiff).toLocaleString()}
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        
+                        <div style="margin-top: 15px; padding: 10px; background: ${monthlyDiff < 10 ? '#d4edda' : '#fff3cd'}; border-radius: 5px; text-align: center;">
+                            <strong style="color: ${monthlyDiff < 10 ? '#155724' : '#856404'};">
+                                ${monthlyDiff < 10 ? '✅ המנוע מדויק מאוד!' : '⚠️ יש הבדלים קלים - נורמלי בחישובי ריבית'}
+                            </strong>
+                        </div>
+                    </div>
+                `;
+
+            } catch (error) {
+                console.error('Bank comparison error:', error);
+                comparisonDiv.innerHTML = `
+                    <div style="background: #ffebee; padding: 15px; border-radius: 8px; color: #c62828;">
+                        ❌ שגיאה בהשוואה לבנק: ${error.message}
+                        <br><small>ייתכן שהבנק חוסם בקשות מדומיינים חיצוניים (CORS)</small>
+                    </div>
+                `;
+            }
+        }
+
+        // Toggle special options (grace/bridge) based on track type
+        function toggleSpecialOptions(trackNum) {
+            const typeSelect = document.getElementById(`type${trackNum}`);
+            const graceOptions = document.getElementById(`graceOptions${trackNum}`);
+            const bridgeOptions = document.getElementById(`bridgeOptions${trackNum}`);
+            const monthsInput = document.getElementById(`months${trackNum}`);
+            
+            // Hide all special options first
+            graceOptions.style.display = 'none';
+            bridgeOptions.style.display = 'none';
+            
+            // Show relevant options based on selection
+            if (typeSelect.value === 'grace_period') {
+                graceOptions.style.display = 'block';
+                // For grace period, the months field is the total term after grace
+                monthsInput.placeholder = '240 (כולל חסד)';
+            } else if (typeSelect.value === 'bridge') {
+                bridgeOptions.style.display = 'block';
+                // For bridge, months is not relevant (it's just the bridge period)
+                monthsInput.placeholder = '(לא רלוונטי)';
+                monthsInput.value = '';
+            } else {
+                // Regular loan
+                monthsInput.placeholder = '240';
+            }
+        }
+
+        // Auto-calculate total amount when inputs change
+        function updateTotalAmount() {
+            let total = 0;
+            for (let i = 1; i <= 4; i++) {
+                const amount = parseFloat(document.getElementById(`amount${i}`).value) || 0;
+                total += amount;
+            }
+            document.getElementById('totalAmount').textContent = `₪${total.toLocaleString()}`;
+        }
+
+        // Add event listeners to amount inputs
+        for (let i = 1; i <= 4; i++) {
+            document.getElementById(`amount${i}`).addEventListener('input', updateTotalAmount);
+        }
+
+        // Utility functions
+        function showLoading(show) {
+            document.getElementById('loadingMessage').style.display = show ? 'block' : 'none';
+        }
+
+        function showError(message) {
+            const errorDiv = document.getElementById('errorMessage');
+            errorDiv.textContent = message;
+            errorDiv.style.display = 'block';
+        }
+
+        function showSuccess(message) {
+            const successDiv = document.getElementById('successMessage');
+            successDiv.textContent = message;
+            successDiv.style.display = 'block';
+        }
+
+        function hideMessages() {
+            document.getElementById('errorMessage').style.display = 'none';
+            document.getElementById('successMessage').style.display = 'none';
+        }
+
+        // Tab switching function
+        function switchTab(tabName) {
+            // Hide all tab contents
+            document.querySelectorAll('.tab-content').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            
+            // Remove active class from all buttons
+            document.querySelectorAll('.tab-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            
+            // Show selected tab
+            document.getElementById(tabName + 'Tab').classList.add('active');
+            
+            // Activate button
+            event.target.classList.add('active');
+        }
+        
+        // Load example mortgage for engine testing (month 13)
+        function loadExampleMortgage() {
+            // Create a mortgage state after 13 months of payments
+            currentEngineState = {
+                mortgage_id: "ENGINE-TEST-001",
+                borrower: { name: "Test User", id: "123456789" },
+                mortgage_details: {
+                    original_amount: 500000,
+                    currency: "ILS",
+                    start_date: "2024-01-01",
+                    current_date: "2025-01-31"
+                },
+                market_conditions: {
+                    current_prime_rate: 0.045,
+                    current_cpi_index: 110.5,
+                    base_cpi_index: 108.5
+                },
+                tracks: [
+                    {
+                        track_id: "TRACK-1",
+                        track_name: "קבוע 5%",
+                        track_type: "fixed_rate",
+                        original_amount: 300000,
+                        current_balance: 285000, // After 13 payments
+                        rate: 0.05,
+                        rate_type: "fixed",
+                        start_date: "2024-01-01",
+                        total_term_months: 240,
+                        remaining_months: 227, // 240 - 13
+                        payments_made: 13,
+                        is_interest_only: false
+                    },
+                    {
+                        track_id: "TRACK-2", 
+                        track_name: "פריים משתנה",
+                        track_type: "variable_prime",
+                        original_amount: 200000,
+                        current_balance: 192000, // After 13 payments
+                        rate: 0.045,
+                        rate_type: "variable",
+                        start_date: "2024-01-01",
+                        total_term_months: 240,
+                        remaining_months: 227,
+                        payments_made: 13,
+                        is_interest_only: false
+                    }
+                ],
+                current_monthly_payment: { total_payment: 2650, breakdown: [] },
+                last_calculation_date: "2025-01-01",
+                next_adjustment_triggers: []
+            };
+            
+            // Update UI
+            updateCurrentMortgageDisplay();
+            
+            // Set default market changes
+            document.getElementById('newPrimeRate').value = '4.75';
+            document.getElementById('newCPI').value = '110.2';
+        }
+        
+        // Update current mortgage display
+        function updateCurrentMortgageDisplay() {
+            if (!currentEngineState) return;
+            
+            const totalBalance = currentEngineState.tracks.reduce((sum, track) => sum + track.current_balance, 0);
+            
+            document.getElementById('currentMonth').textContent = currentEngineState.tracks[0].payments_made + 1;
+            document.getElementById('currentDate').textContent = currentEngineState.mortgage_details.current_date;
+            document.getElementById('currentBalance').textContent = `₪${Math.round(totalBalance).toLocaleString()}`;
+            document.getElementById('currentPayment').textContent = `₪${Math.round(currentEngineState.current_monthly_payment.total_payment).toLocaleString()}`;
+        }
+        
+        // Process monthly update
+        async function processMonthlyUpdate() {
+            if (!currentEngineState) {
+                showError('אנא טען תחילה דוגמא של משכנתא');
+                return;
+            }
+            
+            const debugDiv = document.getElementById('engineDebugInfo');
+            debugDiv.style.display = 'block';
+            debugDiv.innerHTML = '🔄 מעבד עדכון חודשי...';
+            
+            try {
+                showLoading(true);
+                document.getElementById('engineStatus').textContent = 'מעבד...';
+                
+                // Get market changes
+                const newPrimeRate = parseFloat(document.getElementById('newPrimeRate').value) / 100 || currentEngineState.market_conditions.current_prime_rate;
+                const newCPI = parseFloat(document.getElementById('newCPI').value) || currentEngineState.market_conditions.current_cpi_index;
+                const updateDate = document.getElementById('updateDate').value || new Date().toISOString().split('T')[0];
+                
+                debugDiv.innerHTML += `<br>📊 Prime Rate: ${(newPrimeRate * 100).toFixed(2)}%`;
+                debugDiv.innerHTML += `<br>📈 CPI: ${newCPI}`;
+                debugDiv.innerHTML += `<br>📅 Date: ${updateDate}`;
+                
+                // Update market conditions
+                const updatedMarketConditions = {
+                    current_prime_rate: newPrimeRate,
+                    current_cpi_index: newCPI,
+                    base_cpi_index: currentEngineState.market_conditions.base_cpi_index
+                };
+                
+                // Process CPI adjustments for index-linked tracks
+                const updatedTracks = currentEngineState.tracks.map(track => {
+                    let updatedTrack = { ...track };
+                    
+                    if (track.track_type === "index_linked_variable") {
+                        const cpi_factor = newCPI / currentEngineState.market_conditions.base_cpi_index;
+                        const original_cpi_factor = currentEngineState.market_conditions.current_cpi_index / currentEngineState.market_conditions.base_cpi_index;
+                        updatedTrack.current_balance = (track.current_balance / original_cpi_factor) * cpi_factor;
+                        debugDiv.innerHTML += `<br>🔄 ${track.track_name}: CPI adjustment ${cpi_factor.toFixed(4)}`;
+                    }
+                    
+                    // Advance one month
+                    updatedTrack.remaining_months = Math.max(0, track.remaining_months - 1);
+                    updatedTrack.payments_made = track.payments_made + 1;
+                    
+                    return updatedTrack;
+                });
+                
+                // Create updated mortgage state
+                const updatedMortgageState = {
+                    ...currentEngineState,
+                    market_conditions: updatedMarketConditions,
+                    tracks: updatedTracks,
+                    mortgage_details: {
+                        ...currentEngineState.mortgage_details,
+                        current_date: updateDate
+                    }
+                };
+                
+                // Call API to recalculate
+                const response = await fetch('/update-mortgage', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        mortgage_state: updatedMortgageState,
+                        monthly_changes: {
+                            calculation_date: updateDate,
+                            market_rate_changes: {
+                                prime_rate: newPrimeRate,
+                                cpi_index: newCPI
+                            }
+                        }
+                    })
+                });
+                
+                if (!response.ok) {
+                    throw new Error(`Server error: ${response.status}`);
+                }
+                
+                const result = await response.json();
+                debugDiv.innerHTML += '<br>✅ API call successful';
+                
+                // Update engine state
+                currentEngineState = result.updated_mortgage_state;
+                
+                // Update displays
+                updateCurrentMortgageDisplay();
+                updateEngineResults(result);
+                
+                document.getElementById('engineStatus').textContent = 'עודכן בהצלחה';
+                document.getElementById('lastUpdate').textContent = new Date().toLocaleString('he-IL');
+                
+                showSuccess('עדכון חודשי הושלם בהצלחה!');
+                debugDiv.innerHTML += '<br>🎉 Update complete!';
+                
+            } catch (error) {
+                console.error('Engine processing error:', error);
+                showError('שגיאה בעיבוד מנוע: ' + error.message);
+                debugDiv.innerHTML += `<br>❌ Error: ${error.message}`;
+                document.getElementById('engineStatus').textContent = 'שגיאה';
+            } finally {
+                showLoading(false);
+            }
+        }
+        
+        // Update engine results display
+        function updateEngineResults(result) {
+            // Show updated state section
+            document.getElementById('updatedStateSection').style.display = 'block';
+            document.getElementById('trackDetailsSection').style.display = 'block';
+            
+            // Update state summary
+            const totalBalance = result.updated_mortgage_state.tracks.reduce((sum, track) => sum + track.current_balance, 0);
+            const monthlyPayment = result.updated_mortgage_state.current_monthly_payment.total_payment;
+            
+            document.getElementById('updatedMortgageState').innerHTML = `
+                <div class="info-item">
+                    <strong>יתרת קרן מעודכנת:</strong>
+                    <span class="currency">₪${Math.round(totalBalance).toLocaleString()}</span>
+                </div>
+                <div class="info-item">
+                    <strong>תשלום חודשי חדש:</strong>
+                    <span class="currency">₪${Math.round(monthlyPayment).toLocaleString()}</span>
+                </div>
+                <div class="info-item">
+                    <strong>חודש הבא:</strong>
+                    <span>${result.updated_mortgage_state.tracks[0].payments_made + 1}</span>
+                </div>
+            `;
+            
+            // Update track details table
+            const tbody = document.getElementById('trackDetailsBody');
+            tbody.innerHTML = '';
+            
+            result.updated_mortgage_state.tracks.forEach(track => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${track.track_name}</td>
+                    <td class="currency">₪${Math.round(track.original_amount).toLocaleString()}</td>
+                    <td class="currency">₪${Math.round(track.current_balance).toLocaleString()}</td>
+                    <td>${(track.rate * 100).toFixed(2)}%</td>
+                    <td class="currency">₪${Math.round(monthlyPayment / result.updated_mortgage_state.tracks.length).toLocaleString()}</td>
+                    <td>${track.remaining_months}</td>
+                `;
+                tbody.appendChild(row);
+            });
+        }
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', function() {
+            updateCurrentTime();
+            setInterval(updateCurrentTime, 1000);
+            setDefaultDate();
+        });
+    </script>
+</body>
+</html>

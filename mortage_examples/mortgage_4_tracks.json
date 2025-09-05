@@ -1,0 +1,123 @@
+{
+  "mortgage_id": "MULTI-4T-001",
+  "borrower": {
+    "name": "Multi Track Borrower",
+    "id": "987654321"
+  },
+  "mortgage_details": {
+    "original_amount": 1600000.0,
+    "currency": "ILS",
+    "start_date": "2024-01-01",
+    "current_date": "2024-01-01"
+  },
+  "market_conditions": {
+    "current_prime_rate": 0.045,
+    "current_cpi_index": 108.5,
+    "base_cpi_index": 108.5
+  },
+  "tracks": [
+    {
+      "track_id": "TRACK-GRACE",
+      "track_name": "מסלול חסד - Grace Period",
+      "track_type": "grace_period",
+      "original_amount": 200000.0,
+      "current_balance": 200000.0,
+      "rate": 0.03,
+      "rate_type": "fixed_grace",
+      "start_date": "2024-01-01",
+      "total_term_months": 144,
+      "remaining_months": 144,
+      "payments_made": 0,
+      "grace_period_months": 24,
+      "current_phase": "interest_only",
+      "is_interest_only": true
+    },
+    {
+      "track_id": "TRACK-PRIME",
+      "track_name": "מסלול פריים - Prime Rate",
+      "track_type": "variable_prime",
+      "original_amount": 300000.0,
+      "current_balance": 300000.0,
+      "rate": 0.045,
+      "rate_type": "variable",
+      "start_date": "2024-01-01",
+      "total_term_months": 240,
+      "remaining_months": 240,
+      "payments_made": 0,
+      "base_rate": 0.045,
+      "margin": 0.0,
+      "current_rate": 0.045
+    },
+    {
+      "track_id": "TRACK-FIXED",
+      "track_name": "מסלול קבוע - Fixed Rate",
+      "track_type": "fixed_rate",
+      "original_amount": 200000.0,
+      "current_balance": 200000.0,
+      "rate": 0.06,
+      "rate_type": "fixed",
+      "start_date": "2024-01-01",
+      "total_term_months": 240,
+      "remaining_months": 240,
+      "payments_made": 0
+    },
+    {
+      "track_id": "TRACK-INDEX",
+      "track_name": "מסלול צמוד מדד - Index Linked",
+      "track_type": "index_linked_variable",
+      "original_amount": 300000.0,
+      "current_balance": 300000.0,
+      "rate": 0.05,
+      "rate_type": "index_linked",
+      "start_date": "2024-01-01",
+      "total_term_months": 240,
+      "remaining_months": 240,
+      "payments_made": 0,
+      "index_type": "CPI",
+      "base_cpi": 108.5,
+      "current_cpi": 108.5,
+      "cpi_adjustment_factor": 1.0,
+      "rate_reset_frequency_years": 5,
+      "next_rate_reset_date": "2029-01-01"
+    },
+    {
+      "track_id": "TRACK-BRIDGE",
+      "track_name": "מסלול גישור - Bridge",
+      "track_type": "bridge",
+      "original_amount": 600000.0,
+      "current_balance": 600000.0,
+      "rate": 0.065,
+      "rate_type": "fixed_bridge",
+      "start_date": "2024-01-01",
+      "total_term_months": 36,
+      "remaining_months": 36,
+      "payments_made": 0,
+      "maturity_date": "2027-01-01"
+    }
+  ],
+  "current_monthly_payment": {
+    "total_payment": 0,
+    "breakdown": []
+  },
+  "last_calculation_date": "2024-01-01",
+  "next_adjustment_triggers": [
+    {
+      "trigger_type": "grace_period_end",
+      "affects_tracks": ["TRACK-GRACE"],
+      "next_update_date": "2026-01-01"
+    },
+    {
+      "trigger_type": "prime_rate_change",
+      "affects_tracks": ["TRACK-PRIME"]
+    },
+    {
+      "trigger_type": "cpi_update",
+      "affects_tracks": ["TRACK-INDEX"]
+    },
+    {
+      "trigger_type": "bridge_maturity",
+      "affects_tracks": ["TRACK-BRIDGE"],
+      "maturity_date": "2027-01-01"
+    }
+  ]
+}

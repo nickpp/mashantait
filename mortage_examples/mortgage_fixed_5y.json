@@ -1,0 +1,39 @@
+{
+  "mortgage_id": "FIXED-5Y-001",
+  "borrower": {
+    "name": "Test Borrower",
+    "id": "123456789"
+  },
+  "mortgage_details": {
+    "original_amount": 500000.0,
+    "currency": "ILS",
+    "start_date": "2024-01-01",
+    "current_date": "2024-01-01"
+  },
+  "market_conditions": {
+    "current_prime_rate": 0.045,
+    "current_cpi_index": 108.5,
+    "base_cpi_index": 108.5
+  },
+  "tracks": [
+    {
+      "track_id": "TRACK-001",
+      "track_name": "Fixed Rate 5%",
+      "track_type": "fixed_rate",
+      "original_amount": 500000.0,
+      "current_balance": 500000.0,
+      "rate": 0.05,
+      "rate_type": "fixed",
+      "start_date": "2024-01-01",
+      "total_term_months": 60,
+      "remaining_months": 60,
+      "payments_made": 0
+    }
+  ],
+  "current_monthly_payment": {
+    "total_payment": 0,
+    "breakdown": []
+  },
+  "last_calculation_date": "2024-01-01",
+  "next_adjustment_triggers": []
+}
