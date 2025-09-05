@@ -13,6 +13,7 @@ APP_NAME="mashantait"
 APP_DIR="/var/www/$APP_NAME"
 SERVICE_NAME="mashantait"
 PYTHON_VERSION="python3.12"
+APP_PORT="8080"  # Change this to your preferred port
 
 # Colors for output
 RED='\033[0;31m'
@@ -86,7 +87,7 @@ Type=simple
 User=$SERVER_USER
 WorkingDirectory=$APP_DIR
 Environment=PATH=$APP_DIR/venv/bin
-ExecStart=$APP_DIR/venv/bin/uvicorn main:app --host 0.0.0.0 --port 8000
+ExecStart=$APP_DIR/venv/bin/uvicorn main:app --host 0.0.0.0 --port $APP_PORT
 Restart=always
 RestartSec=3
 
@@ -126,7 +127,7 @@ server {
 
     # Proxy API requests to FastAPI
     location / {
-        proxy_pass http://127.0.0.1:8000;
+        proxy_pass http://127.0.0.1:$APP_PORT;
         proxy_set_header Host \$host;
         proxy_set_header X-Real-IP \$remote_addr;
         proxy_set_header X-Forwarded-For \$proxy_add_x_forwarded_for;
