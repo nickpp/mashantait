@@ -139,10 +139,11 @@ else
     echo -e "${YELLOW}⚙️ Step 3: Starting development server...${NC}"
 fi
 
-echo -e "${YELLOW}🌐 Step 4: Configuring nginx...${NC}"
+if [[ "$LOCAL_MODE" == false ]]; then
+    echo -e "${YELLOW}🌐 Step 4: Configuring nginx...${NC}"
 
-# Create nginx configuration locally
-cat > mashantait.nginx << EOF
+    # Create nginx configuration locally
+    cat > mashantait.nginx << EOF
 server {
     listen 80;
     server_name $SERVER_HOST;
@@ -187,25 +188,26 @@ server {
 }
 EOF
 
-# Copy nginx config to server
-copy_to_server "mashantait.nginx" "/tmp/mashantait.nginx"
+    # Copy nginx config to server
+    copy_to_server "mashantait.nginx" "/tmp/mashantait.nginx"
 
-# Install nginx configuration
-run_remote "
-    sudo mv /tmp/mashantait.nginx /etc/nginx/sites-available/$APP_NAME
-    sudo ln -sf /etc/nginx/sites-available/$APP_NAME /etc/nginx/sites-enabled/
-    
-    # Test nginx configuration
-    sudo nginx -t
-    
-    # Reload nginx
-    sudo systemctl reload nginx
-"
+    # Install nginx configuration
+    run_command "
+        sudo mv /tmp/mashantait.nginx /etc/nginx/sites-available/$APP_NAME
+        sudo ln -sf /etc/nginx/sites-available/$APP_NAME /etc/nginx/sites-enabled/
+        
+        # Test nginx configuration
+        sudo nginx -t
+        
+        # Reload nginx
+        sudo systemctl reload nginx
+    "
 
-echo -e "${YELLOW}🔒 Step 5: Setting up SSL (optional)...${NC}"
-echo "To setup SSL with Let's Encrypt, run on the server:"
-echo "sudo apt install certbot python3-certbot-nginx"
-echo "sudo certbot --nginx -d $SERVER_HOST"
+    echo -e "${YELLOW}🔒 Step 5: Setting up SSL (optional)...${NC}"
+    echo "To setup SSL with Let's Encrypt, run on the server:"
+    echo "sudo apt install certbot python3-certbot-nginx"
+    echo "sudo certbot --nginx -d $SERVER_HOST"
+fi
 
 if [[ "$LOCAL_MODE" == true ]]; then
     echo -e "${GREEN}✅ Setup completed successfully!${NC}"
