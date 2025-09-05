@@ -6,7 +6,7 @@
 set -e
 
 # Configuration
-DOMAIN="maskantait.commentiq.ai"
+DOMAIN="mashkanatit.commentiq.ai"
 APP_PORT="8080"
 NGINX_SITE="mashantait"
 
