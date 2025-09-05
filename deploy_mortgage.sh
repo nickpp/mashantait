@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Deploy משכנתאית 2026 - Israeli Mortgage Engine
-# This script deploys the application to a server with nginx
+# This script can deploy via SSH or run locally on the server
 
 set -e  # Exit on any error
 
@@ -12,8 +12,18 @@ REPO_URL="https://github.com/nickpp/mashantait.git"
 APP_NAME="mashantait"
 APP_DIR="/var/www/$APP_NAME"
 SERVICE_NAME="mashantait"
-PYTHON_VERSION="python3.12"
+PYTHON_VERSION="python3"
 APP_PORT="8080"  # Change this to your preferred port
+
+# Detect if running locally or via SSH
+if [[ "$1" == "--local" ]] || [[ -f "main.py" ]]; then
+    LOCAL_MODE=true
+    APP_DIR="$(pwd)"
+    echo "🏠 Running in LOCAL MODE"
+else
+    LOCAL_MODE=false
+    echo "🌐 Running in SSH MODE"
+fi
 
 # Colors for output
 RED='\033[0;31m'
@@ -25,37 +35,52 @@ NC='\033[0m' # No Color
 echo -e "${BLUE}🏛️ Deploying משכנתאית 2026 to $SERVER_HOST${NC}"
 echo "=================================================="
 
-# Function to run commands on server
-run_remote() {
-    ssh -t "$SERVER_USER@$SERVER_HOST" "$1"
+# Function to run commands (local or remote)
+run_command() {
+    if [[ "$LOCAL_MODE" == true ]]; then
+        eval "$1"
+    else
+        ssh -t "$SERVER_USER@$SERVER_HOST" "$1"
+    fi
 }
 
-# Function to copy files to server
+# Function to copy files to server (only for SSH mode)
 copy_to_server() {
-    scp "$1" "$SERVER_USER@$SERVER_HOST:$2"
+    if [[ "$LOCAL_MODE" == false ]]; then
+        scp "$1" "$SERVER_USER@$SERVER_HOST:$2"
+    fi
 }
 
 echo -e "${YELLOW}📋 Step 1: Preparing server environment...${NC}"
 
 # Create application directory and setup
-run_remote "
-    sudo mkdir -p $APP_DIR
-    sudo chown $USER:$USER $APP_DIR
-    cd $APP_DIR
-    
-    # Clone or update repository
+if [[ "$LOCAL_MODE" == true ]]; then
+    echo "📁 Using current directory: $APP_DIR"
+    # Update repository if we're in a git repo
     if [ -d '.git' ]; then
-        echo '🔄 Updating existing repository...'
+        echo '🔄 Updating repository...'
         git pull origin main
-    else
-        echo '📥 Cloning repository...'
-        git clone $REPO_URL .
     fi
-"
+else
+    run_command "
+        sudo mkdir -p $APP_DIR
+        sudo chown $USER:$USER $APP_DIR
+        cd $APP_DIR
+        
+        # Clone or update repository
+        if [ -d '.git' ]; then
+            echo '🔄 Updating existing repository...'
+            git pull origin main
+        else
+            echo '📥 Cloning repository...'
+            git clone $REPO_URL .
+        fi
+    "
+fi
 
 echo -e "${YELLOW}🐍 Step 2: Setting up Python environment...${NC}"
 
-run_remote "
+run_command "
     cd $APP_DIR
     
     # Create virtual environment
@@ -74,10 +99,11 @@ run_remote "
     python -c 'import main; print(\"✅ Application imports successfully\")'
 "
 
-echo -e "${YELLOW}⚙️ Step 3: Creating systemd service...${NC}"
+if [[ "$LOCAL_MODE" == false ]]; then
+    echo -e "${YELLOW}⚙️ Step 3: Creating systemd service...${NC}"
 
-# Create systemd service file locally
-cat > mashantait.service << EOF
+    # Create systemd service file locally
+    cat > mashantait.service << EOF
 [Unit]
 Description=משכנתאית 2026 - Israeli Mortgage Engine
 After=network.target
@@ -95,20 +121,23 @@ RestartSec=3
 WantedBy=multi-user.target
 EOF
 
-# Copy service file to server
-copy_to_server "mashantait.service" "/tmp/mashantait.service"
+    # Copy service file to server
+    copy_to_server "mashantait.service" "/tmp/mashantait.service"
 
-# Install and start service
-run_remote "
-    sudo mv /tmp/mashantait.service /etc/systemd/system/
-    sudo systemctl daemon-reload
-    sudo systemctl enable $SERVICE_NAME
-    sudo systemctl restart $SERVICE_NAME
-    
-    # Check service status
-    echo '📊 Service status:'
-    sudo systemctl status $SERVICE_NAME --no-pager
-"
+    # Install and start service
+    run_command "
+        sudo mv /tmp/mashantait.service /etc/systemd/system/
+        sudo systemctl daemon-reload
+        sudo systemctl enable $SERVICE_NAME
+        sudo systemctl restart $SERVICE_NAME
+        
+        # Check service status
+        echo '📊 Service status:'
+        sudo systemctl status $SERVICE_NAME --no-pager
+    "
+else
+    echo -e "${YELLOW}⚙️ Step 3: Starting development server...${NC}"
+fi
 
 echo -e "${YELLOW}🌐 Step 4: Configuring nginx...${NC}"
 
@@ -178,18 +207,34 @@ echo "To setup SSL with Let's Encrypt, run on the server:"
 echo "sudo apt install certbot python3-certbot-nginx"
 echo "sudo certbot --nginx -d $SERVER_HOST"
 
-echo -e "${GREEN}✅ Deployment completed successfully!${NC}"
-echo "=================================================="
-echo -e "${BLUE}🏛️ משכנתאית 2026 is now running at:${NC}"
-echo -e "${GREEN}   http://$SERVER_HOST${NC}"
-echo ""
-echo -e "${YELLOW}📋 Useful commands:${NC}"
-echo "   Check service: ssh $SERVER_USER@$SERVER_HOST 'sudo systemctl status $SERVICE_NAME'"
-echo "   View logs:     ssh $SERVER_USER@$SERVER_HOST 'sudo journalctl -u $SERVICE_NAME -f'"
-echo "   Restart app:   ssh $SERVER_USER@$SERVER_HOST 'sudo systemctl restart $SERVICE_NAME'"
-echo "   Update code:   ./deploy_mortgage.sh"
+if [[ "$LOCAL_MODE" == true ]]; then
+    echo -e "${GREEN}✅ Setup completed successfully!${NC}"
+    echo "=================================================="
+    echo -e "${BLUE}🏛️ Starting משכנתאית 2026 server...${NC}"
+    echo -e "${GREEN}   Available at: http://localhost:$APP_PORT${NC}"
+    echo -e "${GREEN}   Available at: http://$(hostname -I | awk '{print $1}' 2>/dev/null || echo 'SERVER-IP'):$APP_PORT${NC}"
+    echo ""
+    echo -e "${YELLOW}Press Ctrl+C to stop the server${NC}"
+    echo "=================================================="
+    
+    # Start the server
+    cd "$APP_DIR"
+    source venv/bin/activate
+    uvicorn main:app --host 0.0.0.0 --port $APP_PORT --reload
+else
+    echo -e "${GREEN}✅ Deployment completed successfully!${NC}"
+    echo "=================================================="
+    echo -e "${BLUE}🏛️ משכנתאית 2026 is now running at:${NC}"
+    echo -e "${GREEN}   http://$SERVER_HOST${NC}"
+    echo ""
+    echo -e "${YELLOW}📋 Useful commands:${NC}"
+    echo "   Check service: ssh $SERVER_USER@$SERVER_HOST 'sudo systemctl status $SERVICE_NAME'"
+    echo "   View logs:     ssh $SERVER_USER@$SERVER_HOST 'sudo journalctl -u $SERVICE_NAME -f'"
+    echo "   Restart app:   ssh $SERVER_USER@$SERVER_HOST 'sudo systemctl restart $SERVICE_NAME'"
+    echo "   Update code:   ./deploy_mortgage.sh"
 
-# Cleanup local files
-rm -f mashantait.service mashantait.nginx
-
-echo -e "${GREEN}🎉 Deploy script completed!${NC}"
+    # Cleanup local files
+    rm -f mashantait.service mashantait.nginx
+    
+    echo -e "${GREEN}🎉 Deploy script completed!${NC}"
+fi
